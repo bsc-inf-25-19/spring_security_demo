@@ -32,7 +32,9 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeRequests()
                 .antMatchers(HttpMethod.PUT,"/api/v1/users/disable-account/{userName}")
-                .hasAnyRole("ADMIN");
+                .hasAnyRole("ADMIN")
+                .antMatchers(HttpMethod.PUT,"/api/v1/users/update-role/{userName}/{role}")
+                .hasAnyRole("ADMIN", "EXECUTIVE");
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager(authenticationConfiguration), tokenUtility());
         customAuthenticationFilter.setFilterProcessesUrl("/api/v1/auth/login");
         http.csrf().disable();

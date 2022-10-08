@@ -30,6 +30,9 @@ public class WebSecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.PUT,"/api/v1/users/disable-account/{userName}")
+                .hasAnyRole("ADMIN");
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager(authenticationConfiguration), tokenUtility());
         customAuthenticationFilter.setFilterProcessesUrl("/api/v1/auth/login");
         http.csrf().disable();

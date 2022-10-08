@@ -34,7 +34,9 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.PUT,"/api/v1/users/disable-account/{userName}")
                 .hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.PUT,"/api/v1/users/update-role/{userName}/{role}")
-                .hasAnyRole("ADMIN", "EXECUTIVE");
+                .hasAnyRole("ADMIN", "EXECUTIVE")
+                .antMatchers(HttpMethod.GET, "/api/v1/users/me")
+                .hasAnyRole("ADMIN", "EXECUTIVE","USER");
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager(authenticationConfiguration), tokenUtility());
         customAuthenticationFilter.setFilterProcessesUrl("/api/v1/auth/login");
         http.csrf().disable();
